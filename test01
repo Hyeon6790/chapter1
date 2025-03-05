@@ -1,0 +1,44 @@
+### 03-05
+***
+```
+package chapter01;
+
+//1. 클래스 설계
+class Box{
+	//속성 
+	int width;
+	int height;
+	int depth;
+	
+	//기능(생성자 메소드, 일반 메소드)
+	public Box() {
+		width = 10;
+		height = 10;
+		depth = 10;
+	}
+	
+	public int getVolume() { //public 앞에 int 때문에 return 으로 값을 넘겨줄필요가 있다.
+		return width*height*depth;
+	}
+	
+	public int getArea() {
+		return width*height;
+	}
+	
+}
+public class Test02 {
+	public static void main(String[] args) {
+	//2.객채 생성
+		Box b1 = new Box();
+	
+	//3. 객체 면적, 부피 구하기
+		b1.getArea();
+		int area = b1.getArea();
+		System.out.println("박스 면적 : " + area);
+		
+		int vol = b1.getVolume();
+		System.out.println("박스 부피 : " + vol);
+		
+	}
+}
+```
