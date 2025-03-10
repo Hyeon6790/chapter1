@@ -1,0 +1,62 @@
+```
+package Chapter01;
+
+class BookShop{
+	String bname;
+	String author;
+	int price;
+	
+	public BookShop(String bname,String author,int price) {
+		this.bname = bname;
+		this.author = author;
+		this.price = price;
+	}
+
+	public String getBname() {
+		return bname;
+	}
+
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	
+	
+}
+
+public class Task01 {
+	public static void main(String[] args) {
+		
+		BookShop ob = new BookShop("알기 쉽게 해설한 JAVA","김충석",25000);
+		System.out.println();
+		System.out.println("책 이름 : "+ ob.getBname());
+		System.out.println("책 저자 : "+ ob.getAuthor());
+		System.out.println("책 가격 : "+ ob.getPrice());
+		
+		System.out.println("값 변경 후 출력 : ");
+		ob.setBname("알기 어렵게 해설한 JAVA");
+		ob.setAuthor("김동현");
+		ob.setPrice(25000);
+		
+		System.out.println("책 이름 : "+ ob.getBname());
+		System.out.println("책 저자 : "+ ob.getAuthor());
+		System.out.println("책 가격 : "+ ob.getPrice());
+		
+	}
+}
+```
