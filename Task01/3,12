@@ -1,0 +1,32 @@
+```
+package chapter01;
+
+class Cal{
+	
+	public void sum(int x, int y) {
+		System.out.println("두 수의 합계 : "+ (x+y));
+	}
+	
+	public void sum(int x, int y,int z) {//() < 매개변수
+		 System.out.println("세 수의 합계 : "+ (x+y+z));
+	}
+	public void sum(double x,double y) {//같은 메소드를 중첩으로 사용하는 것 =오버로딩
+		System.out.println("두 개의 실수 합계 : " +(x+y));
+	}
+	
+}
+
+public class Task01 {
+	public static void main(String[] args) {
+		Cal a = new Cal();
+		a.sum(10,23);
+		
+		a.sum(100, 23, 32);
+		a.sum(2.5,3.6);
+		
+		
+		
+	}
+}
+
+```
