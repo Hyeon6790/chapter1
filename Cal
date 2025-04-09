@@ -1,0 +1,189 @@
+package example;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+class Cal extends JFrame implements ActionListener{
+
+	JPanel jp1,jp2,jp3;
+	JTextField jtf;
+	JButton back,c;
+	JButton btn[][];
+	String data[][] = {{"7","8","9","/","sqrt"},{"4","5","6","*","%"},{"1","2","3","-","1/x"},{"0","+/-",".","+","="}};
+	
+	String data2[][];
+	
+	private String currentInput = "";
+	private String previousInput = "";
+	private String operator = "";
+	private boolean isOperatorClicked = false;
+	
+	
+	public Cal() {
+		Container ct = getContentPane();
+		ct.setLayout(new BorderLayout());
+		jp1 = new JPanel(new GridLayout(1,1));
+		jp2 = new JPanel(new GridLayout(1,2));
+		jp3 = new JPanel(new GridLayout(4,5));
+	
+		jtf = new JTextField("");
+		jtf.setEditable(false);
+		jtf.setHorizontalAlignment(JTextField.RIGHT);
+		jp1.setBorder(new TitledBorder("계산 결과 창"));
+		
+		jp1.add(jtf);
+		jtf.addActionListener(this);
+		
+		back = new JButton("Backspace");
+		c = new JButton("c");
+		back.addActionListener(this);
+		c.addActionListener(this);
+		
+		jp2.add(back);
+		jp2.add(c);
+		jp2.setBorder(new TitledBorder("계산기 입력 버튼"));
+		
+		
+		btn = new JButton[4][5];
+		
+		for(int i=0;i<4;i++) {
+			for(int j =0;j<5;j++) {
+				btn[i][j] = new JButton(data[i][j]);
+				jp3.add(btn[i][j]);
+				btn[i][j].addActionListener(this);
+			}
+		}
+		
+		ct.add(jp1,BorderLayout.NORTH);
+		ct.add(jp2,BorderLayout.CENTER);
+		ct.add(jp3,BorderLayout.SOUTH);
+		
+		
+		setTitle("cal");
+		setSize(400,300);
+		setVisible(true);
+
+	}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String command = e.getActionCommand();
+		
+		if(command.equals("C")) {
+			currentInput = "";
+			previousInput = "";
+			operator = "";
+			jtf.setText("0");
+		}else if(command.equals("Backspace")) {
+			if(currentInput.length() > 0) {
+				currentInput = currentInput.substring(0,currentInput.length() -1);
+				jtf.setText(currentInput);
+			}
+		}else if(command.equals("=")) {
+			if (!currentInput.isEmpty() && !previousInput.isEmpty() && !operator.isEmpty()) {
+                double num1 = Double.parseDouble(previousInput);//이전에 입력된 값
+                double num2 = Double.parseDouble(currentInput);//현재 입력된 값
+                double result = 0;
+
+                switch (operator) {//현재 선택된 연산자
+                    case "+":
+                        result = num1 + num2;
+                        break;
+                    case "-":
+                        result = num1 - num2;
+                        break;
+                    case "*":
+                        result = num1 * num2;
+                        break;
+                    case "/":
+                        if (num2 != 0) {
+                            result = num1 / num2;
+                        } else {
+                            jtf.setText("Error");
+                            return;
+                        }
+                        break;
+                    case "%":
+                        result = num1 % num2;
+                        break;
+                }
+                jtf.setText(String.valueOf(result));
+                currentInput = String.valueOf(result);
+                previousInput = "";
+                operator = "";
+            }
+        } else if ("1234567890".contains(command)) {
+            // 숫자 입력
+            if (isOperatorClicked) {//연산자가 클릭된 상태인지 확인
+                currentInput = command;
+                isOperatorClicked = false;
+            } else {
+                currentInput += command;
+            }
+            jtf.setText(currentInput);
+        } else if ("+-*/%".contains(command)) {
+            // 연산자 입력
+            if (!currentInput.isEmpty()) {
+                if (!previousInput.isEmpty()) {
+                    actionPerformed(new ActionEvent(e.getSource(), e.getID(), "=")); // 연산 수행
+                } else {
+                    previousInput = currentInput;
+                    currentInput = "";
+                }
+                operator = command;
+                isOperatorClicked = true;
+            }
+        } else if (command.equals("sqrt")) {
+            // 제곱근
+            if (!currentInput.isEmpty()) {
+                double num = Double.parseDouble(currentInput);
+                double result = Math.sqrt(num);
+                jtf.setText(String.valueOf(result));
+                currentInput = String.valueOf(result);
+            }
+        } else if (command.equals("1/x")) {
+            // 역수
+            if (!currentInput.isEmpty()) {
+                double num = Double.parseDouble(currentInput);
+                if (num != 0) {
+                    double result = 1 / num;
+                    jtf.setText(String.valueOf(result));
+                    currentInput = String.valueOf(result);
+                } else {
+                    jtf.setText("Error");
+                }
+            }
+        } else if (command.equals("+/-")) {
+            // 부호 변경
+            if (!currentInput.isEmpty()) {
+                double num = Double.parseDouble(currentInput);
+                num = -num;
+                currentInput = String.valueOf(num);
+                jtf.setText(currentInput);
+            }
+        }
+	}
+		
+}
+	
+
+
+
+public class Test {
+	public static void main(String[] args) {
+		
+		new Cal();
+		
+	}
+}
